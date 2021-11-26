@@ -3,7 +3,7 @@ import TodoItem from "./TodoItems";
 
 function App() {
   const [value, setvalue] = useState("");
-  const [items, setItem] = useState(["add items"]);
+  const [items, setItem] = useState([]);
 
   function updateItem(event) {
     const newValue = event.target.value;
@@ -13,6 +13,12 @@ function App() {
   function addItem() {
     setItem((prevItems) => [...prevItems, value]);
     setvalue("");
+  }
+
+  function deleteItem(itemId) {
+    setItem((prevItems) => {
+      return prevItems.filter((nowItem, nowIndex) => nowIndex !== itemId);
+    });
   }
 
   return (
@@ -28,8 +34,13 @@ function App() {
       </div>
       <div>
         <ul>
-          {items.map((item) => (
-            <TodoItem text={item} />
+          {items.map((item, index) => (
+            <TodoItem
+              key={index}
+              id={index}
+              onChecked={deleteItem}
+              text={item}
+            />
           ))}
         </ul>
       </div>
